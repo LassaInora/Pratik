@@ -6,8 +6,8 @@
 [![stars - Pratik](https://img.shields.io/github/stars/LassaInora/Pratik?style=social)](https://github.com/LassaInora/Pratik)
 [![forks - Pratik](https://img.shields.io/github/forks/LassaInora/Pratik?style=social)](https://github.com/LassaInora/Pratik)
 
-[![PyPI version](https://badge.fury.io/py/Pratik.svg)](https://pypi.org/project/Pratik)
-[![Supported Versions](https://img.shields.io/pypi/pyversions/Pratik.svg)](https://pypi.org/project/Pratik)
+[![PyPI version](https://badge.fury.io/py/pratik.svg)](https://pypi.org/project/Pratik)
+[![Supported Versions](https://img.shields.io/pypi/pyversions/pratik.svg)](https://pypi.org/project/Pratik)
 
 ___
 
