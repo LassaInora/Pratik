@@ -1,4 +1,4 @@
-from pratik.text import Color
+from text import Color
 
 
 class Menu:
