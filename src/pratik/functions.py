@@ -209,27 +209,8 @@ def humanize_number(__number, __fill_char='.'):
     return ''.join(reversed(__fill_char.join(''.join(number[x:x+3])for x in range(0, len(number), 3))))
 
 
-# menu = Menu("to be", "not to be", title="Question", description="That is the question", back_button="to death", description_center=True)
-# print(menu)
-#
-# menu.select()
-#
-# print(menu)
-#
-# menu.selected = 2
-# print(menu)
-
-menu = Menu("to be", "not to be", title="Question", description="That is the question", back_button="to death")
-print(menu)
-
-menu = Menu("to be", "not to be", title="Question", back_button="to death")
-print(menu)
-
-menu = Menu("to be", "not to be", title="Question")
-print(menu)
-
-menu = Menu("to be", "not to be")
-print(menu)
-
-menu = Menu()
-print(menu)
+def gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
