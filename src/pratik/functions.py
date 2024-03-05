@@ -1,3 +1,6 @@
+import pathlib
+import sys
+
 from pratik.text import Color
 
 
@@ -139,6 +142,17 @@ class Menu:
             raise IndexError
         self.selected = chx
         return chx
+
+
+def get_path(*path: str):
+    try:
+        return sys._MEIPASS + '/'
+    except AttributeError:
+        return str(
+            pathlib.Path(
+                globals()['__spec__'].origin
+            ).parent.parent.absolute()
+        ).replace('\\', '/') + '/' + '/'.join(str(p) for p in path)
 
 
 def enter(__prompt='', __type=int):
