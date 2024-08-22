@@ -29,6 +29,8 @@ It is a library of various functions and classes helping to program more efficie
             *   [3.2.1.1 Menu](#3_2_1_1-Menu)
             *   [3.2.1.2 enter()](#3_2_1_2-enter)
             *   [3.2.1.3 humanize_number()](#3_2_1_3-humanize_number)
+            *   [3.2.1.4 gcd()](#3_2_1_4-gcd)
+            *   [3.2.1.5 progress_bar()](#3_2_1_5-progress_bar)
         +   [3.2.2 package singleton](#3_2_2-singleton)
             *   [3.2.2.1 Singleton](#3_2_2_1-Singleton)
         +   [3.2.3 package text](#3_2_3-text)
@@ -213,6 +215,30 @@ This function is inspired by the input() function by adding the type of a class 
 ```
 
 This function helps to display numbers in a way that is easier for a human to read.
+
+<h4 id="3_2_1_4-gcd">gcd(a, b)</h4>
+
+```
+>> from pratik.functions import gcd
+>> print(gcd(1234567890, 9876543210))
+90
+>> print(humanize_number(48, 18))
+6
+```
+
+This function allows you to retrieve the GCD of two numbers.
+
+<h4 id="3_2_1_5-progress_bar">progress_bar(x, n, *, width=100)</h4>
+
+```
+>> from pratik.functions import progress_bar
+>> print(progress_bar(67, 100))
+067/100 | ███████████████████████████████████████████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  67%
+>> print(progress_bar(13, 50, width=50))
+13/50 | █████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  26%
+```
+
+This function allows you to display a loading bar to have a visual of the execution of a task.
 
 <h3 id="3_2_2-singleton">package singleton</h3>
 

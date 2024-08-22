@@ -1,6 +1,6 @@
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 __author__ = {
     "name": "Axelle V.",
-    "email": "lassa.inora@gmaiol.com",
+    "email": "lassa.inora@gmail.com",
     "discord": "https://discord.gg/kWcPgwHM4b"
 }

@@ -4,9 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pratik"
-version = "0.1.0"
+version = "1.0.0"
 authors = [
-  { name="Axelle V.", email="lassa.inora@gmaiol.com" },
+  { name="Axelle V.", email="lassa.inora@gmail.com" },
 ]
 description = "A library of various functions and classes helping to program more efficiently and more intuitively"
 readme = "README.md"

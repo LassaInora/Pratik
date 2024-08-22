@@ -1,26 +1,48 @@
+import inspect
 import pathlib
-import sys
 
 from pratik.text import Color
 
 
 class Menu:
-    """Managing an interactive menu"""
+    """Class to manage an interactive menu.
+
+    Attributes:
+    -----------
+    title : str
+        The title of the menu.
+    description : str
+        The description of the menu.
+    description_center : bool
+        Whether to center the description text or not.
+    choices : tuple
+        The available options in the menu.
+    back_button : str
+        Text for the back button.
+    selected : int
+        Index of the currently selected option.
+    """
 
     def __init__(self, *choices, title=..., description=..., back_button=..., description_center=False):
+        # Initialize the menu with given choices, title, description, and back button
         self.title = ... if title is ... or title == '' or title.isspace() else title
         self.description = ... if description is ... or description == '' or description.isspace() else description
         self.description_center = description_center
         self.choices = choices
         self.back_button = back_button
 
+        # Default selected option is the first one
         self.selected = 0
 
     def __len__(self):
+        # Return the number of choices available in the menu
         return len(self.choices)
 
     def __str__(self):
+        """Creates a string representation of the menu with a formatted structure."""
+
         def get_title():
+            # Build the title section of the menu
             if isinstance(self.title, str):
                 line1 = f"  ╔═{'═' * len(self.title)}═╗  ".center(width) + "\n"
                 line2 = "╔" + f"═╣ {self.title} ╠═".center(width - 2, '═') + "╗\n"
@@ -31,6 +53,7 @@ class Menu:
                 return f"╔{'═' * (width - 2)}╗\n"
 
         def get_description(desc=...):
+            # Build the description section
             if desc is ...:
                 if self.description is ...:
                     return ''
@@ -54,6 +77,7 @@ class Menu:
                 return "║" + result.ljust(width - 3) + " ║\n" + get_separator()
 
         def get_choice_button(number, choice: str):
+            # Build each choice button, highlighting the selected option
             if number == self.selected:
                 return (
                     f"║ {Color.RED}╔═{'═' * nb_width}═╗╔═{'═' * (width - nb_width - 12)}═╗{Color.STOP} ║\n"
@@ -68,23 +92,29 @@ class Menu:
                 )
 
         def get_back_button():
+            # Optionally add a back button if provided
             if isinstance(self.back_button, str):
                 return get_separator() + get_choice_button(0, self.back_button)
             else:
                 return ''
 
         def get_separator():
+            # Return a separator line
             return f"╟{'─' * (width - 2)}╢\n"
 
         def get_footer():
+            # Return the footer line
             return f"╚{'═' * (width - 2)}╝"
 
+        # If no choices are available, return a message indicating the menu is empty
         if len(self) == 0:
             return "The menu is empty."
 
+        # Calculate width for formatting
         width = self._width
         nb_width = self._width_number
 
+        # Construct the full menu string
         return (
                 get_title() +
                 get_description() +
@@ -94,16 +124,20 @@ class Menu:
         )
 
     def __repr__(self):
+        # Return a string representation useful for debugging
         return repr(self.choices)
 
     def __iter__(self):
+        # Allow the menu to be iterable over choices
         return iter(self.choices)
 
     def __next__(self):
+        # Move to the next option in the menu
         self.selected = (self.selected % len(self.choices)) + 1
 
     @property
     def _width(self):
+        """Calculates the necessary width for the menu layout based on title, description, and choices."""
         if isinstance(self.title, str):
             title_size = len(f"╔═╣ {self.title} ╠═╗")
         else:
@@ -133,10 +167,16 @@ class Menu:
 
     @property
     def _width_number(self):
+        # Calculates the width needed to display the number of choices
         return len(str(len(self.choices)))
 
     def select(self):
-        """Selects the value entered by the user"""
+        """Prompts the user to select an option from the menu.
+
+        :return: The selected option index.
+        :rtype: int
+        :raise IndexError: If the input is out of the valid range.
+        """
         chx = enter(">> ")
         if chx not in range(0 if isinstance(self.back_button, str) else 1, len(self.choices) + 1):
             raise IndexError
@@ -144,15 +184,26 @@ class Menu:
         return chx
 
 
-def get_path(*path: str):
-    try:
-        return sys._MEIPASS + '/'
-    except AttributeError:
-        return str(
-            pathlib.Path(
-                globals()['__spec__'].origin
-            ).parent.parent.absolute()
-        ).replace('\\', '/') + '/' + '/'.join(str(p) for p in path)
+def get_path(*path):
+    """Retrieves the file path, considering different execution environments.
+
+    :param path: Additional paths to append.
+    :type path: str
+    :return: A string representing the complete path.
+    :rtype: str
+    """
+    # Get the filename of the caller
+    caller_frame = inspect.stack()[1]
+    caller_file = caller_frame.filename
+
+    # Compute the absolute path relative to the caller's file location
+    caller_path = pathlib.Path(caller_file).parent
+    for part_path in path:
+        if part_path == '..':
+            caller_path = caller_path.parent
+        else:
+            caller_path = caller_path.joinpath(part_path)
+    return str(caller_path.absolute()).replace('\\', '/')
 
 
 def enter(__prompt='', __type=int):
@@ -202,6 +253,8 @@ def enter(__prompt='', __type=int):
                     raise ValueError(f"could not convert string to bool: '{var}'")
             elif __type == slice:
                 return slice(*var.split(':'))
+            elif __type == list:
+                return var.split()
             return __type(var)
         except ValueError:
             print(Color.RED + f"\"{var}\" is not of type {__type.__name__}" + Color.STOP)
@@ -209,22 +262,49 @@ def enter(__prompt='', __type=int):
 
 
 def humanize_number(__number, __fill_char='.'):
-    """Humanizes the writing of a number.
+    """Formats a number with separators to enhance readability.
 
-    :param __number: The number to humanize
+    :param __number: The number to format.
     :type __number: int
-    :param __fill_char: The separator
+    :param __fill_char: The character to use as a separator.
     :type __fill_char: str
 
-    :return: The humanized number
+    :return: The formatted number as a string.
     :rtype: str
     """
+
     number = list(reversed(str(__number)))
     return ''.join(reversed(__fill_char.join(''.join(number[x:x+3])for x in range(0, len(number), 3))))
 
 
 def gcd(a, b):
+    """Computes the greatest common divisor of two numbers using recursion.
+
+    :param a: The first number.
+    :type a: int
+    :param b: The second number.
+    :type b: int
+    :return: The greatest common divisor.
+    :rtype: int
+    """
+
     if b == 0:
         return a
     else:
         return gcd(b, a % b)
+
+
+def progress_bar(x, n, *, width=100) -> None:
+    """ Displays a progress bar in the console.
+    Please, use `\r` for overwrite the line.
+
+    :param x: The current progress count.
+    :type x: int
+    :param n: The total count to reach 100%.
+    :type n: int
+    :param width: The width of the progress bar.
+    :type width: int
+    """
+    pourcent = x / n
+    size = round(pourcent * width)
+    print(f"\r{x:0{len(str(n))}}/{n} | {'█'*size}{'░'*(width - size)} {round(pourcent * 100):3}%", end='')
