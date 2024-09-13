@@ -26,12 +26,3 @@ class TimeRemaining:
         restant = str(((passed * self.numbers) / self.iterations) - passed).split('.')[0]
         progress_bar(self.iterations, self.numbers, width=width)
         print(f" {restant}", end='')
-
-if __name__ == '__main__':
-    how_many_objects = 100
-
-    tr = TimeRemaining(how_many_objects)
-    for i in range(how_many_objects):
-        time.sleep(0.1)
-        tr.add()
-        tr.progress_bar(width=25)

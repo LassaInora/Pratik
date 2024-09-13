@@ -1,5 +1,3 @@
-# examples.py
-
 from pratik.text import Color, Highlight, Style, generate, information
 
 
