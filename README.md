@@ -14,7 +14,7 @@ ___
 </div>
 
 <h1 id="1-overview">Overview</h1>
-It is a library of various functions and classes helping to program more efficiently and more intuitively
+Pratik is a library of various functions and classes helping to program more efficiently and more intuitively.
 
 <h1 id="2-summary">Summary</h1>
 <details markdown="1">
@@ -24,23 +24,23 @@ It is a library of various functions and classes helping to program more efficie
 -   [2 Summary](#2-summary)
 -   [3 How to use](#3-how_to_use)
     *   [3.1 Installation](#3_1-installation)
-    *   [3.2 Librairies](#3_2-librairies)
-        +   [3.2.1 package functions](#3_2_1-functions)
+    *   [3.2 Libraries](#3_2-libraries)
+        +   [3.2.1 Package functions](#3_2_1-functions)
             *   [3.2.1.1 Menu](#3_2_1_1-Menu)
             *   [3.2.1.2 enter()](#3_2_1_2-enter)
             *   [3.2.1.3 humanize_number()](#3_2_1_3-humanize_number)
             *   [3.2.1.4 gcd()](#3_2_1_4-gcd)
             *   [3.2.1.5 progress_bar()](#3_2_1_5-progress_bar)
-        +   [3.2.2 package singleton](#3_2_2-singleton)
+        +   [3.2.2 Package singleton](#3_2_2-singleton)
             *   [3.2.2.1 Singleton](#3_2_2_1-Singleton)
-        +   [3.2.3 package text](#3_2_3-text)
+        +   [3.2.3 Package text](#3_2_3-text)
             *   [3.2.3.1 Color](#3_2_3_1-Color)
             *   [3.2.3.2 Highlight](#3_2_3_2-Highlight)
             *   [3.2.3.3 Style](#3_2_3_3-Style)
             *   [3.2.3.4 generate()](#3_2_3_4-generate)
             *   [3.2.3.5 information()](#3_2_3_5-information)
             *   [3.2.3.6 STOP](#3_2_3_6-STOP)
-        +   [3.2.4 package time](#3_2_4-time)
+        +   [3.2.4 Package time](#3_2_4-time)
             *   [3.2.4.1 TimeRemaining](#3_2_4_1-TimeRemaining)
 -   [4 Contributors](#4-contributors)
 -   [5 Licence](#5-license)
@@ -56,9 +56,9 @@ By PyPI:
 python -m pip install pratik
 ```
 
-<h2 id="3_2-librairies">Librairies</h2>
+<h2 id="3_2-libraries">Libraries</h2>
 
-<h3 id="3_2_1-functions">package functions</h3>
+<h3 id="3_2_1-functions">Package functions</h3>
 
 <h4 id="3_2_1_1-Menu">Menu</h4>
 
@@ -184,7 +184,7 @@ python -m pip install pratik
 The menu is empty.
 ```
 
-This class simply manages a menu of choice
+This class simply manages a menu of choice.
 
 <h4 id="3_2_1_2-enter">enter(__prompt='', __type=int)</h4>
 
@@ -204,7 +204,7 @@ This class simply manages a menu of choice
 ['C', 'E']
 ```
 
-This function is inspired by the input() function by adding the type of a class in which to return the value
+This function is inspired by the input() function by adding the type of a class in which to return the value.
 
 <h4 id="3_2_1_3-humanize_number">humanize_number(__number, __fill_char='.')</h4>
 
@@ -242,7 +242,7 @@ This function allows you to retrieve the GCD of two numbers.
 
 This function allows you to display a loading bar to have a visual of the execution of a task.
 
-<h3 id="3_2_2-singleton">package singleton</h3>
+<h3 id="3_2_2-singleton">Package singleton</h3>
 
 <h4 id="3_2_2_1-Singleton">Singleton</h4>
 
@@ -278,7 +278,7 @@ class Foo(Singleton):
 Singleton is a class allowing the easy creation of a singleton.</br>
 To instantiate it like a regular class you can overwrite the `singleton_init(self, *args, **kwargs)` method.
 
-<h3 id="3_2_3-text">package text</h3>
+<h3 id="3_2_3-text">Package text</h3>
 
 <h4 id="3_2_3_1-Color">Color</h4>
 
@@ -320,7 +320,7 @@ To highlight text
 
 <h4 id="3_2_3_3-Style">Style</h4>
 
-To stylize text. (Bold, Italic, ...)
+To stylize text (Bold, Italic, ...).
 
 <h4 id="3_2_3_4-generate">generate(*code)</h4>
 
@@ -330,7 +330,7 @@ from pratik.text import generate
 print(f"{generate(31, 45)}It's too much!{generate(0)}")
 ```
 
-For concat too many codes.
+For concatenating too many codes.
 
 <h4 id="3_2_3_5-information">information()</h4>
 
@@ -338,9 +338,9 @@ All ANSI code in table
 
 <h4 id="3_2_3_6-STOP">STOP</h4>
 
-Reset the ANSI sequence with \033[0m character .
+Reset the ANSI sequence with \033[0m character.
 
-<h3 id="3_2_4-time">package time</h3>
+<h3 id="3_2_4-time">Package time</h3>
 
 <h4 id="3_2_4_1-TimeRemaining">TimeRemaining</h4>
 
@@ -377,4 +377,4 @@ using a simple rule of three ((time spent * total number of elements / number of
 
 <h1 id="5-license">Licence</h1>
 
-This library is licensed under the [GNU GENERAL PUBLIC LICENSE](LICENSE)
+This library is licensed under the [GNU GENERAL PUBLIC LICENSE](LICENSE).
