@@ -40,6 +40,8 @@ It is a library of various functions and classes helping to program more efficie
             *   [3.2.3.4 generate()](#3_2_3_4-generate)
             *   [3.2.3.5 information()](#3_2_3_5-information)
             *   [3.2.3.6 STOP](#3_2_3_6-STOP)
+        +   [3.2.4 package time](#3_2_4-time)
+            *   [3.2.4.1 TimeRemaining](#3_2_4_1-TimeRemaining)
 -   [4 Contributors](#4-contributors)
 -   [5 Licence](#5-license)
 
@@ -337,6 +339,35 @@ All ANSI code in table
 <h4 id="3_2_3_6-STOP">STOP</h4>
 
 Reset the ANSI sequence with \033[0m character .
+
+<h3 id="3_2_4-time">package time</h3>
+
+<h4 id="3_2_4_1-TimeRemaining">TimeRemaining</h4>
+
+```python
+import time
+from pratik.time import TimeRemaining
+
+if __name__ == '__main__':
+    how_many_objects = 100
+    
+    tr = TimeRemaining(how_many_objects)
+    for i in range(how_many_objects):
+        time.sleep(0.1)
+        tr.add()
+        tr.progress_bar()
+```
+
+```
+>> 017/100 | ████░░░░░░░░░░░░░░░░░░░░░  17% 0:00:08
+>> 053/100 | █████████████░░░░░░░░░░░░  53% 0:00:04
+>> 079/100 | ████████████████████░░░░░  79% 0:00:02
+>> 100/100 | █████████████████████████ 100% 0:00:00
+```
+
+This class is close to progress bar in terms of operation. It adds to the latter an estimate of the remaining time 
+using a simple rule of three ((time spent * total number of elements / number of elements passed) - time spent).
+
 
 <h1 id="4-contributors">Contributors</h1>
 
