@@ -31,6 +31,7 @@ Pratik is a library of various functions and classes helping to program more eff
             *   [3.2.1.3 humanize_number()](#3_2_1_3-humanize_number)
             *   [3.2.1.4 gcd()](#3_2_1_4-gcd)
             *   [3.2.1.5 progress_bar()](#3_2_1_5-progress_bar)
+            *   [3.2.1.6 clear()](#3_2_1_6-clear)
         +   [3.2.2 Package singleton](#3_2_2-singleton)
             *   [3.2.2.1 Singleton](#3_2_2_1-Singleton)
         +   [3.2.3 Package text](#3_2_3-text)
@@ -64,7 +65,7 @@ python -m pip install pratik
 
 ```
 >> from pratik.functions import Menu
->> menu = Menu("to be", "not to be", title="Question", description="That is the question", back_button="to death", description_center=True)
+>> menu = Menu("to be", "not to be", title="Question", description="That is the question", back_button="to death", description_center=True, colored=True)
 >> print(menu)
      ╔══════════╗     
 ╔════╣ Question ╠════╗
@@ -84,6 +85,25 @@ python -m pip install pratik
 ║ ╚═══╝╚═══════════╝ ║
 ╚════════════════════╝
 >> menu.select()
+     ╔══════════╗     
+╔════╣ Question ╠════╗
+║    ╚══════════╝    ║
+║     That is the    ║
+║      question      ║
+╟────────────────────╢
+║ ┌───┐┌───────────┐ ║
+║ │ 1 ├┤ to be     │ ║
+║ └───┘└───────────┘ ║
+║ ┌───┐┌───────────┐ ║
+║ │ 2 ├┤ not to be │ ║
+║ └───┘└───────────┘ ║
+╟────────────────────╢
+║ ╔═══╗╔═══════════╗ ║ 
+║ ║ 0 ╠╣ to death  ║ ║ # This button is in red color
+║ ╚═══╝╚═══════════╝ ║
+╚════════════════════╝
+?> 2
+>> menu.select(printed=False)
 ?> 1
 >> print(menu)
      ╔══════════╗     
@@ -138,7 +158,7 @@ python -m pip install pratik
 ║ └───┘└───────────┘ ║
 ╟────────────────────╢
 ║ ╔═══╗╔═══════════╗ ║
-║ ║ 0 ╠╣ to death  ║ ║
+║ ║ 0 ╠╣ to death  ║ ║ # This button is in red color
 ║ ╚═══╝╚═══════════╝ ║
 ╚════════════════════╝
 >> menu = Menu("to be", "not to be", title="Question", back_button="to death")
@@ -154,8 +174,24 @@ python -m pip install pratik
 ║ └───┘└───────────┘ ║
 ╟────────────────────╢
 ║ ╔═══╗╔═══════════╗ ║
-║ ║ 0 ╠╣ to death  ║ ║
+║ ║ 0 ╠╣ to death  ║ ║ # This button is in red color
 ║ ╚═══╝╚═══════════╝ ║
+╚════════════════════╝
+>> menu = Menu("to be", "not to be", title="Question", back_button="to death", colored=False)
+>> print(menu)
+     ╔══════════╗     
+╔════╣ Question ╠════╗
+║    ╚══════════╝    ║
+║ ┌───┐┌───────────┐ ║
+║ │ 1 ├┤ to be     │ ║
+║ └───┘└───────────┘ ║
+║ ┌───┐┌───────────┐ ║
+║ │ 2 ├┤ not to be │ ║
+║ └───┘└───────────┘ ║
+╟────────────────────╢
+║ ┌───┐┌───────────┐ ║
+║ │ 0 ├┤ to death  │ ║ # This button is not in red color
+║ └───┘└───────────┘ ║
 ╚════════════════════╝
 >> menu = Menu("to be", "not to be", title="Question")
 >> print(menu)
@@ -182,6 +218,25 @@ python -m pip install pratik
 >> menu = Menu()
 >> print(menu)
 The menu is empty.
+>> menu = Menu("maybe")
+>> print(menu)
+╔════════════════════╗
+║ ┌───┐┌───────────┐ ║
+║ │ 1 ├┤ maybe     │ ║
+║ └───┘└───────────┘ ║
+╚════════════════════╝
+>> menu.select()
+>> print(menu)
+╔════════════════════╗
+║ ╔═══╗╔═══════════╗ ║
+║ ║ 1 ╠╣ maybe     ║ ║
+║ ╚═══╝╚═══════════╝ ║
+╚════════════════════╝
+>> menu = Menu(back_button="to death")
+>> print(menu)
+>> The menu is empty.
+>> print(menu.select())
+0
 ```
 
 This class simply manages a menu of choice.
@@ -241,6 +296,20 @@ This function allows you to retrieve the GCD of two numbers.
 ```
 
 This function allows you to display a loading bar to have a visual of the execution of a task.
+
+<h4 id="3_2_1_6-clear">clear(*, return_line=False)</h4>
+
+```
+>> from pratik.functions import clear
+>> clear()
+<deletion character>
+>> clear(return_line=True)
+<deletion character>
+
+>> 
+```
+
+This function allows you to clear the current terminal, a parameter allows you to return to the line after the deletion character.
 
 <h3 id="3_2_2-singleton">Package singleton</h3>
 

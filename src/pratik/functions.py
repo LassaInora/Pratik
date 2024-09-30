@@ -1,4 +1,5 @@
 import inspect
+import os
 import pathlib
 
 from pratik.text import Color
@@ -19,17 +20,20 @@ class Menu:
         The available options in the menu.
     back_button : str
         Text for the back button.
+    colored : bool
+        Whether to color or not the selected choice.
     selected : int
         Index of the currently selected option.
     """
 
-    def __init__(self, *choices, title=..., description=..., back_button=..., description_center=False):
+    def __init__(self, *choices, title=..., description=..., back_button=..., description_center=False, colored=True):
         # Initialize the menu with given choices, title, description, and back button
         self.title = ... if title is ... or title == '' or title.isspace() else title
         self.description = ... if description is ... or description == '' or description.isspace() else description
         self.description_center = description_center
         self.choices = choices
         self.back_button = back_button
+        self.colored = colored
 
         # Default selected option is the first one
         self.selected = 0
@@ -78,7 +82,7 @@ class Menu:
 
         def get_choice_button(number, choice: str):
             # Build each choice button, highlighting the selected option
-            if number == self.selected:
+            if number == self.selected and self.colored:
                 return (
                     f"║ {Color.RED}╔═{'═' * nb_width}═╗╔═{'═' * (width - nb_width - 12)}═╗{Color.STOP} ║\n"
                     f"║ {Color.RED}║ {str(number).zfill(nb_width)} ╠╣ {choice.ljust(width - nb_width - 12)} ║{Color.STOP} ║\n"
@@ -170,16 +174,31 @@ class Menu:
         # Calculates the width needed to display the number of choices
         return len(str(len(self.choices)))
 
-    def select(self):
-        """Prompts the user to select an option from the menu.
+    def select(self, *, printed=True):
+        """Prompts the user to select an option from the menu if a choice is possible.
 
+        :param printed: Print the menu before making the choice?
+        :type printed: bool
         :return: The selected option index.
         :rtype: int
         :raise IndexError: If the input is out of the valid range.
         """
-        chx = enter(">> ")
-        if chx not in range(0 if isinstance(self.back_button, str) else 1, len(self.choices) + 1):
-            raise IndexError
+        if len(self.choices) == 0:
+            if isinstance(self.back_button, str):
+                chx = 0
+            else:
+                return None
+        elif len(self.choices) == 1:
+            return self.choices[0]
+        else:
+            if printed:
+                print(self)
+            was_chosen = False
+            chx = None
+            while not was_chosen:
+                chx = enter(">> ")
+                if not (chx not in range(0 if isinstance(self.back_button, str) else 1, len(self.choices) + 1)):
+                    was_chosen = True
         self.selected = chx
         return chx
 
@@ -308,3 +327,18 @@ def progress_bar(x, n, *, width=100) -> None:
     pourcent = x / n
     size = round(pourcent * width)
     print(f"\r{x:0{len(str(n))}}/{n} | {'█'*size}{'░'*(width - size)} {round(pourcent * 100):3}%", end='')
+
+
+def clear(*, return_line: bool = False) -> None:
+    """
+    Clears the console screen.
+
+    This function clears the console by using the `cls` command on Windows
+    and `clear` on other operating systems.
+
+    :param return_line: If True, prints a blank line after clearing the screen.
+    :type return_line: bool
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+    if return_line:
+        print()
