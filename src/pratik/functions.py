@@ -324,9 +324,12 @@ def progress_bar(x, n, *, width=100) -> None:
     :param width: The width of the progress bar.
     :type width: int
     """
-    pourcent = x / n
-    size = round(pourcent * width)
-    print(f"\r{x:0{len(str(n))}}/{n} | {'█'*size}{'░'*(width - size)} {round(pourcent * 100):3}%", end='')
+    if n > 0:
+        pourcent = x / n
+        size = round(pourcent * width)
+        print(f"\r{x:0{len(str(n))}}/{n} | {'█'*size}{'░'*(width - size)} {round(pourcent * 100):3}%", end='')
+    else:
+        print(f"\r{x:0{len(str(n))}}/{n} | {'-' * width} NaN%", end='')
 
 
 def clear(*, return_line: bool = False) -> None:
