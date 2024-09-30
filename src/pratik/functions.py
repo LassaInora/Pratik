@@ -188,8 +188,8 @@ class Menu:
                 chx = 0
             else:
                 return None
-        elif len(self.choices) == 1:
-            return self.choices[0]
+        elif len(self.choices) == 1 and not isinstance(self.back_button, str):
+            chx = 1
         else:
             if printed:
                 print(self)
