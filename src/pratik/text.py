@@ -7,28 +7,30 @@ def generate(*code):
     :return: The ANSI escape sequence
     :rtype: str
     """
+
     def normalize(x: str | int):
         if str(x).startswith('\033'):
             return x.removeprefix('\033[').removesuffix('m')
         else:
             return str(x)
+
     return f"\033[{';'.join(normalize(c) for c in code)}m"
+
 
 class Color:
     """ Class for control the color of the text."""
+
     @staticmethod
     def get_rgb(red, green, blue):
         """ Get the ANSI escape sequence for an RGB color.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
 
-        :return: An ANSI escape sequence
-        :rtype: str
+        Returns:
+            str : The ANSI escape sequence
         """
         return f"\033[38;2;{red};{green};{blue}m"
 
@@ -36,11 +38,11 @@ class Color:
     def get_hex(hexadecimal):
         """ Get the ANSI escape sequence for a Hex color.
 
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
 
-        :return: An ANSI escape sequence
-        :rtype: str
+        Returns:
+            str : The ANSI escape sequence
         """
         if hexadecimal[0] == "#":
             hexadecimal = hexadecimal[1:]
@@ -73,24 +75,22 @@ class Color:
     def __init__(self, red=..., green=..., blue=..., *, hexadecimal=...):
         """ Use red, green, blue OR hexadecimal.
 
-        Hexadecimal overwrite red, green and blue.
+        **WARNING**: Hexadecimal overwrites red, green and blue.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
-
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
         """
         self.set(red, green, blue, hexadecimal=hexadecimal)
 
     def __str__(self):
         """Get the Hexadecimal value"""
+
         def make(x):
             return hex(x).replace('0x', '').upper().rjust(2, '0')
+
         return f"#{make(self.red)}{make(self.green)}{make(self.blue)}"
 
     def __repr__(self):
@@ -102,6 +102,7 @@ class Color:
     def __next__(self):
         def make(x):
             return hex(x).replace('0x', '').upper().rjust(6, '0')
+
         value = int(self) + 1
         if value > 16777215:
             raise StopIteration
@@ -115,17 +116,13 @@ class Color:
     def set(self, red=..., green=..., blue=..., *, hexadecimal=...):
         """ Use red, green, blue OR hexadecimal.
 
-        Hexadecimal overwrite red, green and blue.
+        **WARNING**: Hexadecimal overwrites red, green and blue.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
-
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
         """
         if hexadecimal is not ...:
             if hexadecimal[0] == "#":
@@ -145,15 +142,13 @@ class Highlight:
     def get_rgb(red=..., green=..., blue=...):
         """ Get the ANSI escape sequence for an RGB color.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
 
-        :return: An ANSI escape sequence
-        :rtype: str
+        Returns:
+            str : The ANSI escape sequence
         """
         return f"\033[48;2;{red};{green};{blue}m"
 
@@ -161,11 +156,11 @@ class Highlight:
     def get_hex(hexadecimal):
         """ Get the ANSI escape sequence for a Hex color.
 
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
 
-        :return: An ANSI escape sequence
-        :rtype: str
+        Returns:
+            str : The ANSI escape sequence
         """
         if hexadecimal[0] == "#":
             hexadecimal = hexadecimal[1:]
@@ -198,24 +193,22 @@ class Highlight:
     def __init__(self, red=..., green=..., blue=..., *, hexadecimal=...):
         """ Use red, green, blue OR hexadecimal.
 
-        Hexadecimal overwrite red, green and blue.
+        **WARNING**: Hexadecimal overwrites red, green and blue.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
-
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
         """
         self.set(red, green, blue, hexadecimal=hexadecimal)
 
     def __str__(self):
         """Get the Hexadecimal value"""
+
         def make(x):
             return hex(x).replace('0x', '').upper().rjust(2, '0')
+
         return f"#{make(self.red)}{make(self.green)}{make(self.blue)}"
 
     def __repr__(self):
@@ -227,6 +220,7 @@ class Highlight:
     def __next__(self):
         def make(x):
             return hex(x).replace('0x', '').upper().rjust(6, '0')
+
         value = int(self) + 1
         if value > 16777215:
             raise StopIteration
@@ -240,17 +234,13 @@ class Highlight:
     def set(self, red=..., green=..., blue=..., *, hexadecimal=...):
         """ Use red, green, blue OR hexadecimal.
 
-        Hexadecimal overwrite red, green and blue.
+        **WARNING**: Hexadecimal overwrites red, green and blue.
 
-        :param red: The color red value : 0 -> 255
-        :type red: int
-        :param green: The color green value : 0 -> 255
-        :type green: int
-        :param blue: The color blue value : 0 -> 255
-        :type blue: int
-
-        :param hexadecimal: The hexadecimal color value : #000000 -> #FFFFFF
-        :type hexadecimal: str
+        Arguments:
+            red (int) : The red color: 0 -> 255
+            green (int) : The green color: 0 -> 255
+            blue (int) : The blue color: 0 -> 255
+            hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
         """
         if hexadecimal is not ...:
             if hexadecimal[0] == "#":
@@ -299,8 +289,8 @@ class Style:
 def information():
     """ All ANSI code in table
 
-    :return: A table of information
-    :rtype: str
+    Returns:
+        str: A table of information
     """
     return """\
 ╔═════════╦══════════════════════════════╦════════════════════════════════════════════════════════════════════════╗

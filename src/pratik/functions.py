@@ -1,33 +1,83 @@
+""" Pratik is a library of various functions and classes helping to program more efficiently and more intuitively. """
+
+import datetime
+import functools
 import inspect
 import os
 import pathlib
+import warnings
+from enum import Enum
 
 from pratik.text import Color
 
 
+def deprecated(func):
+    """ Decorator to mark functions as deprecated.
+
+    This decorator issues a `DeprecationWarning` when the decorated function is called.
+    It's useful for informing users that a function will be removed in a future version,
+    and optionally guiding them to use an alternative.
+
+    Args:
+        func (Callable): The function to mark as deprecated.
+
+    Returns:
+        Callable: The wrapped function that issues a deprecation warning when called.
+
+    Example:
+        >>> @deprecated
+        ... def old_function():
+        ...     pass
+    """
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        """ Wrapper function that emits a deprecation warning when the decorated function is called.
+
+        Args:
+            *args: Positional arguments passed to the original function.
+            **kwargs: Keyword arguments passed to the original function.
+
+        Returns:
+            Any: The result of calling the original (deprecated) function.
+
+        Raises:
+            DeprecationWarning: Warns that the function is deprecated.
+        """
+        warnings.warn(
+            f"{func.__name__}() is deprecated and will be removed in a future version.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
 class Menu:
-    """Class to manage an interactive menu.
+    """ Class to manage an interactive menu.
 
     Attributes:
-    -----------
-    title : str
-        The title of the menu.
-    description : str
-        The description of the menu.
-    description_center : bool
-        Whether to center the description text or not.
-    choices : tuple
-        The available options in the menu.
-    back_button : str
-        Text for the back button.
-    colored : bool
-        Whether to color or not the selected choice.
-    selected : int
-        Index of the currently selected option.
+        title (str): The title of the menu.
+        description (str): The description of the menu.
+        description_center (bool): Whether to center the description text.
+        choices (tuple): The available options in the menu.
+        back_button (str): Text for the back button.
+        colored (bool): Whether to color the selected choice.
+        selected (int): Index of the currently selected option.
     """
 
     def __init__(self, *choices, title=..., description=..., back_button=..., description_center=False, colored=True):
-        # Initialize the menu with given choices, title, description, and back button
+        """ Initializes the menu with choices, title, description, and back button.
+
+        Args:
+            *choices: Variable length argument list of menu choices.
+            title (str): The title of the menu.
+            description (str): The description of the menu.
+            back_button (str): The text of the back button.
+            description_center (bool, optional): Center the description. Defaults to False.
+            colored (bool, optional): Highlight selected choice. Defaults to True.
+        """
         self.title = ... if title is ... or title == '' or title.isspace() else title
         self.description = ... if description is ... or description == '' or description.isspace() else description
         self.description_center = description_center
@@ -39,14 +89,24 @@ class Menu:
         self.selected = 0
 
     def __len__(self):
-        # Return the number of choices available in the menu
+        """
+        Returns:
+            int: Number of choices available in the menu.
+        """
         return len(self.choices)
 
     def __str__(self):
-        """Creates a string representation of the menu with a formatted structure."""
+        """
+        Returns:
+            str: A formatted string representation of the menu.
+        """
 
         def get_title():
-            # Build the title section of the menu
+            """ Constructs the title section of the menu.
+
+            Returns:
+                str: Formatted title lines with borders.
+            """
             if isinstance(self.title, str):
                 line1 = f"  ╔═{'═' * len(self.title)}═╗  ".center(width) + "\n"
                 line2 = "╔" + f"═╣ {self.title} ╠═".center(width - 2, '═') + "╗\n"
@@ -57,7 +117,14 @@ class Menu:
                 return f"╔{'═' * (width - 2)}╗\n"
 
         def get_description(desc=...):
-            # Build the description section
+            """ Constructs the description section, wrapping text appropriately.
+
+            Args:
+                desc (list[str]): Pre-split description words. Defaults to self.description.split().
+
+            Returns:
+                str: Formatted description lines with alignment.
+            """
             if desc is ...:
                 if self.description is ...:
                     return ''
@@ -81,11 +148,20 @@ class Menu:
                 return "║" + result.ljust(width - 3) + " ║\n" + get_separator()
 
         def get_choice_button(number, choice: str):
-            # Build each choice button, highlighting the selected option
+            """ Constructs the visual representation of a single choice.
+
+            Args:
+                number (int): The number/index of the choice.
+                choice (str): The text of the choice.
+
+            Returns:
+                str: Formatted choice block with or without highlight.
+            """
             if number == self.selected and self.colored:
                 return (
                     f"║ {Color.RED}╔═{'═' * nb_width}═╗╔═{'═' * (width - nb_width - 12)}═╗{Color.STOP} ║\n"
-                    f"║ {Color.RED}║ {str(number).zfill(nb_width)} ╠╣ {choice.ljust(width - nb_width - 12)} ║{Color.STOP} ║\n"
+                    f"║ {Color.RED}║ {str(number).zfill(nb_width)} ╠"
+                    f"╣ {choice.ljust(width - nb_width - 12)} ║{Color.STOP} ║\n"
                     f"║ {Color.RED}╚═{'═' * nb_width}═╝╚═{'═' * (width - nb_width - 12)}═╝{Color.STOP} ║\n"
                 )
             else:
@@ -96,18 +172,30 @@ class Menu:
                 )
 
         def get_back_button():
-            # Optionally add a back button if provided
+            """ Returns the back button block if a back button is configured.
+
+            Returns:
+                str: Formatted back button string or empty string if not applicable.
+            """
             if isinstance(self.back_button, str):
                 return get_separator() + get_choice_button(0, self.back_button)
             else:
                 return ''
 
         def get_separator():
-            # Return a separator line
+            """ Creates a visual separator line.
+
+            Returns:
+                str: The separator string.
+            """
             return f"╟{'─' * (width - 2)}╢\n"
 
         def get_footer():
-            # Return the footer line
+            """ Returns the footer line of the menu.
+
+            Returns:
+                str: Footer string.
+            """
             return f"╚{'═' * (width - 2)}╝"
 
         # If no choices are available, return a message indicating the menu is empty
@@ -128,20 +216,30 @@ class Menu:
         )
 
     def __repr__(self):
-        # Return a string representation useful for debugging
+        """
+        Returns:
+            str: Debug representation of the choices.
+        """
         return repr(self.choices)
 
     def __iter__(self):
-        # Allow the menu to be iterable over choices
+        """
+        Returns:
+            iterator: Iterator over menu choices.
+        """
         return iter(self.choices)
 
     def __next__(self):
-        # Move to the next option in the menu
+        """Move to the next option in the menu."""
         self.selected = (self.selected % len(self.choices)) + 1
 
     @property
     def _width(self):
-        """Calculates the necessary width for the menu layout based on title, description, and choices."""
+        """ Calculates the necessary width for the menu layout based on title, description, and choices.
+
+        Returns:
+            int: The required width for the menu layout.
+            """
         if isinstance(self.title, str):
             title_size = len(f"╔═╣ {self.title} ╠═╗")
         else:
@@ -171,17 +269,25 @@ class Menu:
 
     @property
     def _width_number(self):
-        # Calculates the width needed to display the number of choices
+        """ Calculates the width needed to display the number of choices
+
+        Returns:
+            int: The width needed to display the number of choices.
+        """
         return len(str(len(self.choices)))
 
     def select(self, *, printed=True):
-        """Prompts the user to select an option from the menu if a choice is possible.
+        """
+        Prompts the user to select an option from the menu.
 
-        :param printed: Print the menu before making the choice?
-        :type printed: bool
-        :return: The selected option index.
-        :rtype: int
-        :raise IndexError: If the input is out of the valid range.
+        Args:
+            printed (bool, optional): Whether to print the menu before input. Defaults to True.
+
+        Returns:
+            int: The selected option index.
+
+        Raises:
+            IndexError: If the input is outside the valid range.
         """
         if len(self.choices) == 0:
             if isinstance(self.back_button, str):
@@ -203,14 +309,166 @@ class Menu:
         return chx
 
 
-def get_path(*path):
-    """Retrieves the file path, considering different execution environments.
+class Logger:
+    """ A customizable file-based logging utility with color-coded terminal output.
 
-    :param path: Additional paths to append.
-    :type path: str
-    :return: A string representing the complete path.
-    :rtype: str
+    Supports four logging levels (DEBUG, INFO, WARNING, ERROR), file-based logging
+    with automatic directory creation, and per-hour or per-day log file rotation.
+
+    Attributes:
+        _path (pathlib.Path): The base directory for storing log files.
+        _per_hour (bool): Whether to split logs by hour instead of day.
+
+    Args:
+        log_path (str | pathlib.Path): Directory path where log files will be stored.
+        per_hour (bool, optional): If True, create separate logs per hour. Defaults to False.
     """
+
+    class Level(Enum):
+        """ Enum representing the severity levels for logging.
+
+        Members:
+            DEBUG: Used for low-level debugging information.
+            INFO: General informational messages.
+            WARNING: Messages indicating a potential issue.
+            ERROR: Messages reporting errors that occurred.
+        """
+        DEBUG = -1
+        INFO = 0
+        WARNING = 1
+        ERROR = 2
+
+        @property
+        def color(self):
+            """ Returns the ANSI color code associated with the logging level.
+
+            Returns:
+                str: The ANSI escape code for terminal color display.
+            """
+            if self == self.DEBUG:
+                return Color.PURPLE
+            elif self == self.INFO:
+                return Color.GREEN
+            elif self == self.WARNING:
+                return Color.YELLOW
+            elif self == self.ERROR:
+                return Color.RED
+            else:
+                return ''
+
+    def __init__(self, log_path, *, per_hour=False):
+        """ Initializes the Logger instance with a path and file rotation policy.
+
+        Args:
+            log_path (str | pathlib.Path): Directory where log files will be stored.
+            per_hour (bool, optional): If True, splits logs by hour. Defaults to False.
+        """
+        self._path = pathlib.Path(log_path) if isinstance(log_path, str) else log_path
+        self._per_hour = per_hour
+        if not self._path.exists():
+            self._path.mkdir(parents=True, exist_ok=True)
+
+    def __str__(self):
+        """ Returns a string representation of the logger, as the full file path.
+
+        Returns:
+            str: The absolute path of the current log file.
+        """
+        return str(self.absolute())
+
+    def __repr__(self):
+        """ Returns a developer-readable representation of the logger.
+
+        Returns:
+            str: The current log file name.
+        """
+        return self.filename
+
+    @property
+    def filename(self):
+        """ Computes the log file name based on the current date and optionally hour.
+
+        Returns:
+            str: The name of the log file.
+        """
+        now = datetime.datetime.now()
+        if self._per_hour:
+            return now.strftime("%Y-%m-%d-%H (%A %d %B %Y à %H heures)") + ".log"
+        else:
+            return now.strftime("%Y-%m-%d (%A %d %B %Y)") + ".log"
+
+    @property
+    def filepath(self):
+        """ Constructs the full path to the current log file.
+
+        Returns:
+            pathlib.Path: Full path to the log file.
+        """
+        return self._path / self.filename
+
+    def absolute(self):
+        """ Returns the absolute path to the log file.
+
+        Returns:
+            pathlib.Path: Absolute path of the current log file.
+        """
+        return self.filepath.absolute()
+
+    def log(self, *prompt, level=..., printed=True, colored=True, sep=' ', end='\n', file=...):
+        """ Logs a message to a file and optionally to the terminal.
+
+        Args:
+            *prompt: Message components to log.
+            level (Logger.Level): The log level. Defaults to Logger.Level.INFO.
+            printed (bool): If True, also prints the message to the terminal. Defaults to True.
+            colored (bool): If True and printed is True, prints with color. Defaults to True.
+            sep (str): Separator between message components. Defaults to ' '.
+            end (str): End character(s) for the line. Defaults to newline.
+            file (str | pathlib.Path): Path to the log file. Defaults to current file.
+
+        Raises:
+            TypeError: If the `file` argument is not a valid path type.
+        """
+        if level is ...:
+            level = self.Level.INFO
+        if file is ...:
+            file = self.filepath
+        if not isinstance(file, pathlib.Path):
+            file = pathlib.Path(file)
+
+        if not file.exists():
+            file.parent.mkdir(parents=True, exist_ok=True)
+
+        caller = inspect.stack()[-2]
+        text = (
+            f'[{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}] '
+            f'[{level.name.center(10)}] '
+            f'({caller.filename} - {caller.function} : {caller.lineno}) '
+            f'{sep.join([str(p) for p in prompt])}'
+        )
+
+        with open(file, 'a', encoding='UTF-8') as opened_file:
+            opened_file.write(text + end)
+
+        if printed:
+            if colored:
+                print(level.color if colored else '', end='')
+            print(text, end=('\033[0m' + end) if colored else end)
+
+
+@deprecated
+def get_path(*path):
+    """ [DEPRECATED] Use the `__path__` variable instead.
+
+    Constructs a full file path, adapting to the current execution environment.
+
+    Args:
+        *path (str): Additional path components to join.
+
+    Returns:
+        str: The resolved file path.
+    """
+
     # Get the filename of the caller
     caller_frame = inspect.stack()[1]
     caller_file = caller_frame.filename
@@ -225,8 +483,31 @@ def get_path(*path):
     return str(caller_path.absolute()).replace('\\', '/')
 
 
+def get_root(*, trigger='src'):
+    """
+    Gets the root path up to the given trigger directory.
+
+    Args:
+        trigger (str, optional): The folder name that marks the root. Defaults to 'src'.
+
+    Returns:
+        str: The computed root path.
+    """
+    caller_frame = inspect.stack()[1]
+    root = ''
+    index, can_continue = 0, True
+    path_parts = caller_frame.filename.split('\\')
+    while index < (len(path_parts) - 1) and can_continue:
+        if (part := path_parts[index]) == trigger:
+            can_continue = False
+        else:
+            root += part + '/'
+            index += 1
+    return root
+
+
 def enter(__prompt='', __type=int):
-    """This function allows to input any type.
+    """ Allows input of a specified type.
 
     Types:
     ------
@@ -239,15 +520,15 @@ def enter(__prompt='', __type=int):
     - slice
     - str
 
-    :param __prompt:  Text to print before recovery.
-    :type __prompt: str
-    :param __type: The type to recover. [bool, complex, float, int, list, set, slice, str]
-    :type __type: type
+    Args:
+        __prompt (str, optional): Prompt text. Defaults to ''.
+        __type (type, optional): The desired type. Must be in allowed types. Defaults to int.
 
-    :return: The input in the requested type.
-    :rtype: bool | complex | float | int | list | set | slice | str
+    Returns:
+        Union[bool, complex, float, int, list, set, slice, str]: The typed input.
 
-    :raise TypeError: If __type is not in return type.
+    Raises:
+        TypeError: If an unsupported type is provided.
     """
     if __type not in [
         bool, complex, float, int, list, set, slice, str
@@ -281,30 +562,31 @@ def enter(__prompt='', __type=int):
 
 
 def humanize_number(__number, __fill_char='.'):
-    """Formats a number with separators to enhance readability.
+    """
+    Formats a number with separators to enhance readability.
 
-    :param __number: The number to format.
-    :type __number: int
-    :param __fill_char: The character to use as a separator.
-    :type __fill_char: str
+    Args:
+        __number (int): The number to format.
+        __fill_char (str, optional): Separator character. Defaults to '.'.
 
-    :return: The formatted number as a string.
-    :rtype: str
+    Returns:
+        str: The formatted number.
     """
 
     number = list(reversed(str(__number)))
-    return ''.join(reversed(__fill_char.join(''.join(number[x:x+3])for x in range(0, len(number), 3))))
+    return ''.join(reversed(__fill_char.join(''.join(number[x:x + 3]) for x in range(0, len(number), 3))))
 
 
 def gcd(a, b):
-    """Computes the greatest common divisor of two numbers using recursion.
+    """
+    Computes the greatest common divisor of two numbers.
 
-    :param a: The first number.
-    :type a: int
-    :param b: The second number.
-    :type b: int
-    :return: The greatest common divisor.
-    :rtype: int
+    Args:
+        a (int): First number.
+        b (int): Second number.
+
+    Returns:
+        int: The greatest common divisor.
     """
 
     if b == 0:
@@ -313,34 +595,31 @@ def gcd(a, b):
         return gcd(b, a % b)
 
 
-def progress_bar(x, n, *, width=100) -> None:
+def progress_bar(x, n, *, width=100):
     """ Displays a progress bar in the console.
-    Please, use `\r` for overwrite the line.
+    Use '\\\\r' to overwrite the line.
 
-    :param x: The current progress count.
-    :type x: int
-    :param n: The total count to reach 100%.
-    :type n: int
-    :param width: The width of the progress bar.
-    :type width: int
+    Args:
+        x (int): Current progress.
+        n (int): Total count.
+        width (int, optional): Width of the bar. Defaults to 100.
     """
     if n > 0:
         pourcent = x / n
         size = round(pourcent * width)
-        print(f"\r{x:0{len(str(n))}}/{n} | {'█'*size}{'░'*(width - size)} {round(pourcent * 100):3}%", end='')
+        print(f"\r{x:0{len(str(n))}}/{n} | {'█' * size}{'░' * (width - size)} {round(pourcent * 100):3}%", end='')
     else:
         print(f"\r{x:0{len(str(n))}}/{n} | {'-' * width} NaN%", end='')
 
 
-def clear(*, return_line: bool = False) -> None:
-    """
-    Clears the console screen.
+def clear(*, return_line=False):
+    """ Clears the console screen.
 
     This function clears the console by using the `cls` command on Windows
     and `clear` on other operating systems.
 
-    :param return_line: If True, prints a blank line after clearing the screen.
-    :type return_line: bool
+    Args:
+        return_line (bool, optional): If True, prints a blank line after clearing. Defaults to False.
     """
     os.system('cls' if os.name == 'nt' else 'clear')
     if return_line:

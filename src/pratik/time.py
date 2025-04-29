@@ -1,5 +1,4 @@
 import datetime
-import time
 
 from pratik.functions import progress_bar
 

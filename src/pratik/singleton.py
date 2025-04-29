@@ -10,12 +10,14 @@ class Singleton:
         """Creates a new instance of the class, if one does not exist.
 
         If an instance already exists, it returns the existing instance.
-        If arguments are provided and an instance exists, it reinitializes the instance.
+        If arguments are provided and an instance exists, it reinitialized the instance.
 
-        :param args: Positional arguments passed to singleton_init.
-        :param kwargs: Keyword arguments passed to singleton_init.
-        :return: The single instance of the Singleton class.
-        :rtype: Singleton
+        Arguments:
+            *args: Positional arguments passed to singleton_init.
+            **kwargs: Keyword arguments passed to singleton_init.
+
+        Returns:
+            Singleton: The single instance of the Singleton class.
         """
         if cls._instance is None:
             cls._instance = super().__new__(cls)
@@ -29,7 +31,8 @@ class Singleton:
 
         This method is intended to be overridden or extended in subclasses.
 
-        :param args: Positional arguments for initialization.
-        :param kwargs: Keyword arguments for initialization.
+        Arguments:
+            *args: Positional arguments passed to initialization.
+            **kwargs: Keyword arguments passed to initialization.
         """
         pass
