@@ -8,7 +8,15 @@ def generate(*code):
     :rtype: str
     """
 
-    def normalize(x: str | int):
+    def normalize(x):
+        """
+
+        Arguments:
+            x (str | int):
+
+        Returns:
+            str:
+        """
         if str(x).startswith('\033'):
             return x.removeprefix('\033[').removesuffix('m')
         else:

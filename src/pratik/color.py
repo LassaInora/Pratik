@@ -19,7 +19,8 @@ class Color:
             raise ValueError("Value must be between 0 and 1 (include)")
 
         def f(n):
-            return v - (v * s * max(0, min((k := (n + h * 6) % 6), 4 - k, 1)))
+            k = (n + h * 6) % 6
+            return v - (v * s * max(0, min(k, 4 - k, 1)))
 
         return Color(f(5), f(3), f(1))
 
@@ -150,7 +151,10 @@ class Color:
 
     @property
     def hsl(self):
-        l = ((v_max := self.max) + (v_min := self.min)) / 2
+        v_max = self.max
+        v_min = self.min
+
+        l = (v_max + v_min) / 2
         if v_max == v_min:
             return 0, 0, l
         else:
@@ -186,7 +190,9 @@ class Color:
 
     @property
     def hue(self):
-        if (v_max := self.max) == (v_min := self.min):
+        v_max = self.max
+        v_min = self.min
+        if v_max == v_min:
             return 0
         else:
             d = v_max - v_min
@@ -208,9 +214,11 @@ class Color:
 
     @property
     def saturation_lightness(self):
+        v_max = self.max
+        v_min = self.min
         return round(
             0
-            if (v_max := self.max) == (v_min := self.min) else
+            if v_max == v_min else
             (
                 (v_max - v_min) / (2 - v_max - v_min)
                 if ((v_max + v_min) / 2) > 0.5 else

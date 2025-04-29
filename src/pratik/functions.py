@@ -498,7 +498,8 @@ def get_root(*, trigger='src'):
     index, can_continue = 0, True
     path_parts = caller_frame.filename.split('\\')
     while index < (len(path_parts) - 1) and can_continue:
-        if (part := path_parts[index]) == trigger:
+        part = path_parts[index]
+        if part == trigger:
             can_continue = False
         else:
             root += part + '/'
