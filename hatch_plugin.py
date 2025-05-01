@@ -58,7 +58,7 @@ class CustomBuildHook(BuildHookInterface):
             build_data (dict[str, Any]): The metadata for the build process.
         """
         source_file = Path(self.root) / "metadata.json"
-        destination_file = Path(self.root) / "src" / "metadata.json"
+        destination_file = Path(self.root) / "pratik" / "metadata.json"
 
         if not source_file.exists():
             raise FileNotFoundError("metadata.json not found at: {source_file}".format(source_file=source_file))
