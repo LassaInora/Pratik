@@ -1,4 +1,4 @@
-from src.pratik.functions import Logger
+from pratik import Logger
 
 path = "logs"
 

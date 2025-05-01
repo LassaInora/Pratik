@@ -1,6 +1,6 @@
 import time
 
-from src.pratik.functions import progress_bar
+from pratik import progress_bar
 
 
 def basic_progress_example():

@@ -1,6 +1,6 @@
 import time
 
-from src.pratik.time import TimeRemaining
+from pratik.time import TimeRemaining
 
 
 def basic_progress_example():

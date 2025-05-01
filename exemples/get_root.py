@@ -1,4 +1,4 @@
-from src.pratik.functions import get_root
+from pratik import get_root
 
 
 def basic_root_example():
