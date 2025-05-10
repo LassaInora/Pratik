@@ -1,4 +1,4 @@
-from pratik.functions import Menu
+from pratik.menu import Menu
 
 
 def basic_menu():

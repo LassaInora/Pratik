@@ -1,4 +1,4 @@
-from pratik.functions import enter
+from pratik import enter
 
 
 print("\n# Prompt the user to enter an integer")

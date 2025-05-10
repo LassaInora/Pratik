@@ -1,4 +1,4 @@
-from pratik.functions import gcd
+from pratik import gcd
 
 
 def basic_gcd_example():

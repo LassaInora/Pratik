@@ -1,4 +1,4 @@
-from pratik.functions import humanize_number
+from pratik import humanize_number
 
 
 def basic_humanize_example():

@@ -8,10 +8,10 @@ import pathlib
 import warnings
 from enum import Enum
 
-from pratik import deprecated
+from pratik import deprecated as deprecated_
 from pratik.text import Color
 
-@deprecated
+@deprecated_
 def deprecated(func):
     """ [DEPRECATED] Use `pratik.deprecated`. This function will be removed in 1.5.0.
 
@@ -57,7 +57,7 @@ def deprecated(func):
     return wrapper
 
 
-@deprecated("Use `pratik.menu.Menu`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.menu.Menu`. This function will be removed in 1.5.0")
 class Menu:
     """ [DEPRECATED] Use `pratik.menu.Menu`. This function will be removed in 1.5.0.
 
@@ -326,7 +326,7 @@ class Menu:
         return chx
 
 
-@deprecated("Use `pratik.logger.Logger`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.logger.Logger`. This function will be removed in 1.5.0")
 class Logger:
     """ [DEPRECATED] Use `pratik.logger.Logger`. This function will be removed in 1.5.0.
 
@@ -344,7 +344,7 @@ class Logger:
         per_hour (bool, optional): If True, create separate logs per hour. Defaults to False.
     """
 
-    @deprecated("Use `pratik.logger.Logger.Level`. This function will be removed in 1.5.0")
+    @deprecated_("Use `pratik.logger.Logger.Level`. This function will be removed in 1.5.0")
     class Level(Enum):
         """ [DEPRECATED] Use `pratik.logger.Logger.Level`. This function will be removed in 1.5.0.
 
@@ -493,7 +493,7 @@ class Logger:
             print(text, end=('\033[0m' + end) if colored else end)
 
 
-@deprecated("Use the `__path__` variable instead. This function will be removed in 1.5.0")
+@deprecated_("Use the `__path__` variable instead. This function will be removed in 1.5.0")
 def get_path(*path):
     """ [DEPRECATED] Use the `__path__` variable instead. This function will be removed in 1.5.0.
 
@@ -520,7 +520,7 @@ def get_path(*path):
     return str(caller_path.absolute()).replace('\\', '/')
 
 
-@deprecated("Use `pratik.get_root`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.get_root`. This function will be removed in 1.5.0")
 def get_root(*, trigger='src'):
     """ [DEPRECATED] Use `pratik.get_root`. This function will be removed in 1.5.0.
 
@@ -546,7 +546,7 @@ def get_root(*, trigger='src'):
     return root
 
 
-@deprecated("Use `pratik.enter`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.enter`. This function will be removed in 1.5.0")
 def enter(__prompt='', __type=int):
     """ [DEPRECATED] Use `pratik.enter`. This function will be removed in 1.5.0.
 
@@ -604,7 +604,7 @@ def enter(__prompt='', __type=int):
             var: str = input(__prompt)
 
 
-@deprecated("Use `pratik.humanize_number`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.humanize_number`. This function will be removed in 1.5.0")
 def humanize_number(__number, __fill_char='.'):
     """ [DEPRECATED] Use `pratik.humanize_number`. This function will be removed in 1.5.0.
 
@@ -622,7 +622,7 @@ def humanize_number(__number, __fill_char='.'):
     return ''.join(reversed(__fill_char.join(''.join(number[x:x + 3]) for x in range(0, len(number), 3))))
 
 
-@deprecated("Use `pratik.gcd`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.gcd`. This function will be removed in 1.5.0")
 def gcd(a, b):
     """ [DEPRECATED] Use `pratik.gcd`. This function will be removed in 1.5.0.
 
@@ -642,7 +642,7 @@ def gcd(a, b):
         return gcd(b, a % b)
 
 
-@deprecated("Use `pratik.progress_bar`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.progress_bar`. This function will be removed in 1.5.0")
 def progress_bar(x, n, *, width=100):
     """ [DEPRECATED] Use `pratik.progress_bar`. This function will be removed in 1.5.0.
 
@@ -662,7 +662,7 @@ def progress_bar(x, n, *, width=100):
         print(f"\r{x:0{len(str(n))}}/{n} | {'-' * width} NaN%", end='')
 
 
-@deprecated("Use `pratik.clear`. This function will be removed in 1.5.0")
+@deprecated_("Use `pratik.clear`. This function will be removed in 1.5.0")
 def clear(*, return_line=False):
     """ [DEPRECATED] Use `pratik.clear`. This function will be removed in 1.5.0.
 

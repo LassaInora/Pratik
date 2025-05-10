@@ -1,4 +1,4 @@
-from pratik import Logger
+from pratik.logger import Logger
 
 path = "logs"
 
