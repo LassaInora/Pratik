@@ -1,17 +1,5 @@
-from pratik import get_root
+import pratik
 
-
-def basic_root_example():
-    # Get the root
-    path = get_root()
-    print(f"Basic root: {path}")
-
-def custom_trigger_root_example():
-    # Get the root
-    path = get_root(trigger='exemples')
-    print(f"Custom root: {path}")
-
-
-if __name__ == "__main__":
-    basic_root_example()
-    custom_trigger_root_example()
+print("Get the parent of `src`:", pratik.get_root())
+print("`src` doesn't exist then it takes the parent of the current file.")
+print("Get the parent of `exemples`:", pratik.get_root(trigger="exemples"))

@@ -32,7 +32,7 @@ Pratik is a library of various functions and classes helping to program more eff
 
 ### Library created by
 
-* [LassaInora](https://github.com/LassaInora)
+* [Axelle VIANDIER (aka. LassaInora)](https://github.com/LassaInora)
 
 # Licence
 

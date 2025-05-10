@@ -8,11 +8,14 @@ import pathlib
 import warnings
 from enum import Enum
 
+from pratik import deprecated
 from pratik.text import Color
 
-
+@deprecated
 def deprecated(func):
-    """ Decorator to mark functions as deprecated.
+    """ [DEPRECATED] Use `pratik.deprecated`. This function will be removed in 1.5.0.
+
+    Decorator to mark functions as deprecated.
 
     This decorator issues a `DeprecationWarning` when the decorated function is called.
     It's useful for informing users that a function will be removed in a future version,
@@ -54,8 +57,11 @@ def deprecated(func):
     return wrapper
 
 
+@deprecated("Use `pratik.menu.Menu`. This function will be removed in 1.5.0")
 class Menu:
-    """ Class to manage an interactive menu.
+    """ [DEPRECATED] Use `pratik.menu.Menu`. This function will be removed in 1.5.0.
+
+    Class to manage an interactive menu.
 
     Attributes:
         title (str): The title of the menu.
@@ -68,7 +74,9 @@ class Menu:
     """
 
     def __init__(self, *choices, title=..., description=..., back_button=..., description_center=False, colored=True):
-        """ Initializes the menu with choices, title, description, and back button.
+        """ [DEPRECATED] Use `pratik.menu.Menu`. This function will be removed in 1.5.0.
+
+        Initializes the menu with choices, title, description, and back button.
 
         Args:
             *choices: Variable length argument list of menu choices.
@@ -89,14 +97,16 @@ class Menu:
         self.selected = 0
 
     def __len__(self):
-        """
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
         Returns:
             int: Number of choices available in the menu.
         """
         return len(self.choices)
 
     def __str__(self):
-        """
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
         Returns:
             str: A formatted string representation of the menu.
         """
@@ -216,26 +226,31 @@ class Menu:
         )
 
     def __repr__(self):
-        """
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
         Returns:
             str: Debug representation of the choices.
         """
         return repr(self.choices)
 
     def __iter__(self):
-        """
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
         Returns:
             iterator: Iterator over menu choices.
         """
         return iter(self.choices)
 
     def __next__(self):
-        """Move to the next option in the menu."""
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
+        Move to the next option in the menu."""
         self.selected = (self.selected % len(self.choices)) + 1
 
-    @property
     def _width(self):
-        """ Calculates the necessary width for the menu layout based on title, description, and choices.
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
+        Calculates the necessary width for the menu layout based on title, description, and choices.
 
         Returns:
             int: The required width for the menu layout.
@@ -267,9 +282,10 @@ class Menu:
 
         return max(title_size, description_size, choice_size, back_size)
 
-    @property
     def _width_number(self):
-        """ Calculates the width needed to display the number of choices
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
+        Calculates the width needed to display the number of choices
 
         Returns:
             int: The width needed to display the number of choices.
@@ -277,7 +293,8 @@ class Menu:
         return len(str(len(self.choices)))
 
     def select(self, *, printed=True):
-        """
+        """ [DEPRECATED] Use `from pratik.menu import Menu`. This function will be removed in 1.5.0.
+
         Prompts the user to select an option from the menu.
 
         Args:
@@ -309,8 +326,11 @@ class Menu:
         return chx
 
 
+@deprecated("Use `pratik.logger.Logger`. This function will be removed in 1.5.0")
 class Logger:
-    """ A customizable file-based logging utility with color-coded terminal output.
+    """ [DEPRECATED] Use `pratik.logger.Logger`. This function will be removed in 1.5.0.
+
+    A customizable file-based logging utility with color-coded terminal output.
 
     Supports four logging levels (DEBUG, INFO, WARNING, ERROR), file-based logging
     with automatic directory creation, and per-hour or per-day log file rotation.
@@ -324,8 +344,11 @@ class Logger:
         per_hour (bool, optional): If True, create separate logs per hour. Defaults to False.
     """
 
+    @deprecated("Use `pratik.logger.Logger.Level`. This function will be removed in 1.5.0")
     class Level(Enum):
-        """ Enum representing the severity levels for logging.
+        """ [DEPRECATED] Use `pratik.logger.Logger.Level`. This function will be removed in 1.5.0.
+
+        Enum representing the severity levels for logging.
 
         Members:
             DEBUG: Used for low-level debugging information.
@@ -340,7 +363,9 @@ class Logger:
 
         @property
         def color(self):
-            """ Returns the ANSI color code associated with the logging level.
+            """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+            Returns the ANSI color code associated with the logging level.
 
             Returns:
                 str: The ANSI escape code for terminal color display.
@@ -357,7 +382,9 @@ class Logger:
                 return ''
 
     def __init__(self, log_path, *, per_hour=False):
-        """ Initializes the Logger instance with a path and file rotation policy.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Initializes the Logger instance with a path and file rotation policy.
 
         Args:
             log_path (str | pathlib.Path): Directory where log files will be stored.
@@ -369,7 +396,9 @@ class Logger:
             self._path.mkdir(parents=True, exist_ok=True)
 
     def __str__(self):
-        """ Returns a string representation of the logger, as the full file path.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Returns a string representation of the logger, as the full file path.
 
         Returns:
             str: The absolute path of the current log file.
@@ -377,16 +406,19 @@ class Logger:
         return str(self.absolute())
 
     def __repr__(self):
-        """ Returns a developer-readable representation of the logger.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Returns a developer-readable representation of the logger.
 
         Returns:
             str: The current log file name.
         """
         return self.filename
 
-    @property
     def filename(self):
-        """ Computes the log file name based on the current date and optionally hour.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Computes the log file name based on the current date and optionally hour.
 
         Returns:
             str: The name of the log file.
@@ -397,9 +429,10 @@ class Logger:
         else:
             return now.strftime("%Y-%m-%d (%A %d %B %Y)") + ".log"
 
-    @property
     def filepath(self):
-        """ Constructs the full path to the current log file.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Constructs the full path to the current log file.
 
         Returns:
             pathlib.Path: Full path to the log file.
@@ -407,7 +440,9 @@ class Logger:
         return self._path / self.filename
 
     def absolute(self):
-        """ Returns the absolute path to the log file.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Returns the absolute path to the log file.
 
         Returns:
             pathlib.Path: Absolute path of the current log file.
@@ -415,7 +450,9 @@ class Logger:
         return self.filepath.absolute()
 
     def log(self, *prompt, level=..., printed=True, colored=True, sep=' ', end='\n', file=...):
-        """ Logs a message to a file and optionally to the terminal.
+        """ [DEPRECATED] Use `from pratik.logger import Logger`. This function will be removed in 1.5.0.
+
+        Logs a message to a file and optionally to the terminal.
 
         Args:
             *prompt: Message components to log.
@@ -456,9 +493,9 @@ class Logger:
             print(text, end=('\033[0m' + end) if colored else end)
 
 
-@deprecated
+@deprecated("Use the `__path__` variable instead. This function will be removed in 1.5.0")
 def get_path(*path):
-    """ [DEPRECATED] Use the `__path__` variable instead.
+    """ [DEPRECATED] Use the `__path__` variable instead. This function will be removed in 1.5.0.
 
     Constructs a full file path, adapting to the current execution environment.
 
@@ -483,8 +520,10 @@ def get_path(*path):
     return str(caller_path.absolute()).replace('\\', '/')
 
 
+@deprecated("Use `pratik.get_root`. This function will be removed in 1.5.0")
 def get_root(*, trigger='src'):
-    """
+    """ [DEPRECATED] Use `pratik.get_root`. This function will be removed in 1.5.0.
+
     Gets the root path up to the given trigger directory.
 
     Args:
@@ -507,8 +546,11 @@ def get_root(*, trigger='src'):
     return root
 
 
+@deprecated("Use `pratik.enter`. This function will be removed in 1.5.0")
 def enter(__prompt='', __type=int):
-    """ Allows input of a specified type.
+    """ [DEPRECATED] Use `pratik.enter`. This function will be removed in 1.5.0.
+
+    Allows input of a specified type.
 
     Types:
     ------
@@ -562,8 +604,10 @@ def enter(__prompt='', __type=int):
             var: str = input(__prompt)
 
 
+@deprecated("Use `pratik.humanize_number`. This function will be removed in 1.5.0")
 def humanize_number(__number, __fill_char='.'):
-    """
+    """ [DEPRECATED] Use `pratik.humanize_number`. This function will be removed in 1.5.0.
+
     Formats a number with separators to enhance readability.
 
     Args:
@@ -578,8 +622,10 @@ def humanize_number(__number, __fill_char='.'):
     return ''.join(reversed(__fill_char.join(''.join(number[x:x + 3]) for x in range(0, len(number), 3))))
 
 
+@deprecated("Use `pratik.gcd`. This function will be removed in 1.5.0")
 def gcd(a, b):
-    """
+    """ [DEPRECATED] Use `pratik.gcd`. This function will be removed in 1.5.0.
+
     Computes the greatest common divisor of two numbers.
 
     Args:
@@ -596,8 +642,11 @@ def gcd(a, b):
         return gcd(b, a % b)
 
 
+@deprecated("Use `pratik.progress_bar`. This function will be removed in 1.5.0")
 def progress_bar(x, n, *, width=100):
-    """ Displays a progress bar in the console.
+    """ [DEPRECATED] Use `pratik.progress_bar`. This function will be removed in 1.5.0.
+
+    Displays a progress bar in the console.
     Use '\\\\r' to overwrite the line.
 
     Args:
@@ -613,8 +662,11 @@ def progress_bar(x, n, *, width=100):
         print(f"\r{x:0{len(str(n))}}/{n} | {'-' * width} NaN%", end='')
 
 
+@deprecated("Use `pratik.clear`. This function will be removed in 1.5.0")
 def clear(*, return_line=False):
-    """ Clears the console screen.
+    """ [DEPRECATED] Use `pratik.clear`. This function will be removed in 1.5.0.
+
+    Clears the console screen.
 
     This function clears the console by using the `cls` command on Windows
     and `clear` on other operating systems.

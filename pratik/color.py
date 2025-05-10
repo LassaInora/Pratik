@@ -127,7 +127,7 @@ class Color:
 
     @property
     def hexadecimal(self):
-        return f"#{hex(self.red255)}{hex(self.green255)}{hex(self.blue255)}".replace('0x', '').upper()
+        return f"#{hex(self.red255)[2:]:02}{hex(self.green255)[2:]:02}{hex(self.blue255)[2:]:02}".upper()
 
     @property
     def red255(self):
@@ -225,3 +225,6 @@ class Color:
                 (v_max - v_min) / (v_max + v_min)
             ), 2
         )
+
+if __name__ == '__main__':
+    print(int(Color.by_hexadecimal("#00FF00")))
