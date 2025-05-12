@@ -1,15 +1,19 @@
 class Color:
     @staticmethod
-    def by_hsv(h, s, v):
+    def by_hsv(h, s, v, alpha=1.0):
         """ To convert from HSV to RGB
 
         Arguments:
             h (float): Hue H ∈ [0, 1]
             s (float): Saturation S ∈ [0, 1]
             v (float): Value V ∈ [0, 1]
+            alpha (float): Alpha ∈ [0, 1]
 
         Returns:
             (Color): Color of HSV values.
+
+        Raises:
+            ValueError: If the values are not between 0 and 1.
         """
         if h < 0 or 1 < h:
             raise ValueError("Hue must be between 0 and 1 (include)")
@@ -17,6 +21,8 @@ class Color:
             raise ValueError("Saturation must be between 0 and 1 (include)")
         if v < 0 or 1 < v:
             raise ValueError("Value must be between 0 and 1 (include)")
+        if alpha < 0 or 1 < alpha:
+            raise ValueError("Alpa must be between 0 and 1 (include)")
 
         def f(n):
             k = (n + h * 6) % 6
@@ -25,7 +31,22 @@ class Color:
         return Color(f(5), f(3), f(1))
 
     @staticmethod
-    def by_hsl(h, s, l):
+    def by_hsl(h, s, l, alpha=1.0):
+        """ To convert from HSL to RGB
+
+        Arguments:
+            h (float): Hue H ∈ [0, 1]
+            s (float): Saturation S ∈ [0, 1]
+            l (float): Lightness L ∈ [0, 1]
+            alpha (float): Alpha ∈ [0, 1]
+
+        Returns:
+            (Color): Color of HSL values.
+
+        Raises:
+            ValueError: If the values are not between 0 and 1.
+        """
+
         def hue(p, q, t):
             if t < 0:
                 t += 1
@@ -39,45 +60,41 @@ class Color:
                 return p + (q - p) * (2 / 3 - t) * 6
             return p
 
-        """ To convert from HSL to RGB
-
-        Arguments:
-            h (float): Hue H ∈ [0, 1]
-            s (float): Saturation S ∈ [0, 1]
-            l (float): Lightness L ∈ [0, 1]
-
-        Returns:
-            (Color): Color of HSL values.
-        """
         if h < 0 or 1 < h:
             raise ValueError("Hue must be between 0 and 1 (include)")
         if s < 0 or 1 < s:
             raise ValueError("Saturation must be between 0 and 1 (include)")
         if l < 0 or 1 < l:
             raise ValueError("Light must be between 0 and 1 (include)")
+        if alpha < 0 or 1 < alpha:
+            raise ValueError("Alpa must be between 0 and 1 (include)")
 
         if s == 0:
             r = g = b = l
         else:
             q = l * (1 + s) if l < 0.5 else l + s - l * s
             p = 2 * l - q
-            r = hue(p, q, h + 1/3)
+            r = hue(p, q, h + 1 / 3)
             g = hue(p, q, h)
-            b = hue(p, q, h - 1/3)
+            b = hue(p, q, h - 1 / 3)
 
         return Color(r, g, b)
 
     @staticmethod
-    def by_rgb255(r, g, b):
+    def by_rgb255(r, g, b, alpha=255):
         """ To convert from RGB ∈ [0, 255] to RGB ∈ [0, 1]
 
         Arguments:
-            r: Red ∈ [0, 255]
-            g: Green ∈ [0, 255]
-            b: Blue ∈ [0, 255]
+            r (int): Red ∈ [0, 255]
+            g (int): Green ∈ [0, 255]
+            b (int): Blue ∈ [0, 255]
+            alpha (int): Alpha ∈ [0, 255]
 
         Returns:
+            Color: Color of RGB values.
 
+        Raises:
+            ValueError: If the values are not between 0 and 255.
         """
         if r < 0 or 255 < r:
             raise ValueError("Red must be between 0 and 255 (include)")
@@ -85,6 +102,8 @@ class Color:
             raise ValueError("Green must be between 0 and 255 (include)")
         if b < 0 or 255 < b:
             raise ValueError("Blue must be between 0 and 255 (include)")
+        if alpha < 0 or 255 < alpha:
+            raise ValueError("Alpa must be between 0 and 255 (include)")
         return Color(r / 255.0, g / 255.0, b / 255.0)
 
     @staticmethod
@@ -98,23 +117,45 @@ class Color:
             (Color): Color of hexadecimal values.
         """
         hexadecimal = hexadecimal.removeprefix('#')
-        return Color.by_rgb255(
-            int(hexadecimal[:2], 16),
-            int(hexadecimal[2:4], 16),
-            int(hexadecimal[4:], 16)
-        )
+        if len(hexadecimal) == 6:
+            return Color.by_rgb255(
+                int(hexadecimal[:2], 16),
+                int(hexadecimal[2:4], 16),
+                int(hexadecimal[4:], 16)
+            )
+        else:
+            return Color.by_rgb255(
+                int(hexadecimal[2:4], 16),
+                int(hexadecimal[4:6], 16),
+                int(hexadecimal[6:], 16),
+                int(hexadecimal[:2], 16)
+            )
 
-    def __init__(self, r: float, g: float, b: float):
+    def __init__(self, r, g, b, alpha=1.0):
         """ Color Constructor
 
         Arguments:
-            r: Red ∈ [0, 1]
-            g: Green ∈ [0, 1]
-            b: Blue ∈ [0, 1]
+            r (float): Red ∈ [0, 1]
+            g (float): Green ∈ [0, 1]
+            b (float): Blue ∈ [0, 1]
+            alpha (float): Alpha ∈ [0, 1]
+
+        Raises:
+            ValueError: If the values are not between 0 and 1.
         """
+        if r < 0 or 1 < r:
+            raise ValueError("Red must be between 0 and 1 (include)")
+        if g < 0 or 1 < g:
+            raise ValueError("Green must be between 0 and 1 (include)")
+        if b < 0 or 1 < b:
+            raise ValueError("Blue must be between 0 and 1 (include)")
+        if alpha < 0 or 1 < alpha:
+            raise ValueError("Alpa must be between 0 and 1 (include)")
+
         self.red: float = r
         self.green: float = g
         self.blue: float = b
+        self.alpha: float = alpha
 
     def __str__(self):
         return f"({self.red255}, {self.green255}, {self.blue255})"
@@ -127,7 +168,11 @@ class Color:
 
     @property
     def hexadecimal(self):
-        return f"#{hex(self.red255)[2:]:02}{hex(self.green255)[2:]:02}{hex(self.blue255)[2:]:02}".upper()
+        return f"#{f'{hex(self.alpha255)[2:]:02}' if self.alpha != 1.0 else ''}{hex(self.red255)[2:]:02}{hex(self.green255)[2:]:02}{hex(self.blue255)[2:]:02}".upper()
+
+    @property
+    def rgb255(self):
+        return self.red255, self.green255, self.blue255
 
     @property
     def red255(self):
@@ -140,6 +185,10 @@ class Color:
     @property
     def blue255(self):
         return round(self.blue * 255)
+
+    @property
+    def alpha255(self):
+        return round(self.alpha * 255)
 
     @property
     def max(self):
@@ -225,6 +274,7 @@ class Color:
                 (v_max - v_min) / (v_max + v_min)
             ), 2
         )
+
 
 if __name__ == '__main__':
     print(int(Color.by_hexadecimal("#00FF00")))

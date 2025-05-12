@@ -1,3 +1,7 @@
+import pratik.color
+from pratik import deprecated
+
+
 def generate(*code):
     """For concat too many codes.
 
@@ -29,6 +33,7 @@ class Color:
     """ Class for control the color of the text."""
 
     @staticmethod
+    @deprecated("Use `from_rgb`. This function will be removed in 1.6.0.")
     def get_rgb(red, green, blue):
         """ Get the ANSI escape sequence for an RGB color.
 
@@ -43,6 +48,7 @@ class Color:
         return f"\033[38;2;{red};{green};{blue}m"
 
     @staticmethod
+    @deprecated("Use `from_hexadecimal`. This function will be removed in 1.6.0.")
     def get_hex(hexadecimal):
         """ Get the ANSI escape sequence for a Hex color.
 
@@ -59,6 +65,48 @@ class Color:
             green=int(hexadecimal[2:4], 16),
             blue=int(hexadecimal[4:], 16)
         )
+
+    @classmethod
+    def from_rgb(cls, red, green, blue):
+        """ Get the ANSI escape sequence for an RGB color.
+
+        Arguments:
+            red (int): The red color: 0 -> 255
+            green (int): The green color: 0 -> 255
+            blue (int): The blue color: 0 -> 255
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return f"\033[38;2;{red};{green};{blue}m"
+
+    @classmethod
+    def from_hexadecimal(cls, hexadecimal):
+        """ Get the ANSI escape sequence for a Hex color.
+
+        WARN: Alpha in hexadecimal is ignored.
+
+        Arguments:
+            hexadecimal (str): The hexadecimal color: #000000 -> #FFFFFF
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return cls.from_pratik_color(pratik.color.Color.by_hexadecimal(hexadecimal))
+
+    @classmethod
+    def from_pratik_color(cls, color):
+        """ Get the ANSI escape sequence for a Hex color.
+
+        WARN: Alpha is ignored.
+
+        Arguments:
+            color (pratik.color.Color): The Pratik's color
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return cls.from_rgb(*color.rgb255)
 
     BLACK: str = '\033[30m'
     RED: str = '\033[31m'
@@ -147,8 +195,11 @@ class Highlight:
     """ Class for control the color of the highlight."""
 
     @staticmethod
+    @deprecated("Use `from_rgb`. This function will be removed in 1.6.0.")
     def get_rgb(red=..., green=..., blue=...):
-        """ Get the ANSI escape sequence for an RGB color.
+        """ [DEPRECATED] Use `from_rgb`. This function will be removed in 1.6.0.
+
+        Get the ANSI escape sequence for an RGB color.
 
         Arguments:
             red (int) : The red color: 0 -> 255
@@ -158,11 +209,14 @@ class Highlight:
         Returns:
             str : The ANSI escape sequence
         """
-        return f"\033[48;2;{red};{green};{blue}m"
+        return Highlight.from_rgb(red, green, blue)
 
     @staticmethod
+    @deprecated("Use `from_hexadecimal`. This function will be removed in 1.6.0.")
     def get_hex(hexadecimal):
-        """ Get the ANSI escape sequence for a Hex color.
+        """ [DEPRECATED] Use `from_hexadecimal`. This function will be removed in 1.6.0.
+
+        Get the ANSI escape sequence for a Hex color.
 
         Arguments:
             hexadecimal (str) : The hexadecimal color: #000000 -> #FFFFFF
@@ -170,13 +224,49 @@ class Highlight:
         Returns:
             str : The ANSI escape sequence
         """
-        if hexadecimal[0] == "#":
-            hexadecimal = hexadecimal[1:]
-        return Color.get_rgb(
-            red=int(hexadecimal[:2], 16),
-            green=int(hexadecimal[2:4], 16),
-            blue=int(hexadecimal[4:], 16)
-        )
+        Highlight.from_hexadecimal(hexadecimal)
+
+    @classmethod
+    def from_rgb(cls, red, green, blue):
+        """ Get the ANSI escape sequence for an RGB color.
+
+        Arguments:
+            red (int): The red color: 0 -> 255
+            green (int): The green color: 0 -> 255
+            blue (int): The blue color: 0 -> 255
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return f"\033[48;2;{red};{green};{blue}m"
+
+    @classmethod
+    def from_hexadecimal(cls, hexadecimal):
+        """ Get the ANSI escape sequence for a Hex color.
+
+        WARN: Alpha in hexadecimal is ignored.
+
+        Arguments:
+            hexadecimal (str): The hexadecimal color: #000000 -> #FFFFFF
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return cls.from_pratik_color(pratik.color.Color.by_hexadecimal(hexadecimal))
+
+    @classmethod
+    def from_pratik_color(cls, color):
+        """ Get the ANSI escape sequence for a Hex color.
+
+        WARN: Alpha is ignored.
+
+        Arguments:
+            color (pratik.color.Color): The Pratik's color
+
+        Returns:
+            str : The ANSI escape sequence
+        """
+        return cls.from_rgb(*color.rgb255)
 
     BLACK: str = '\033[40m'
     RED: str = '\033[41m'
