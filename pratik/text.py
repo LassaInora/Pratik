@@ -1,5 +1,5 @@
 import pratik.color
-from pratik import deprecated
+from pratik.decorator import deprecated
 
 
 def generate(*code):

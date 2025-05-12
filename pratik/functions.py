@@ -8,7 +8,7 @@ import pathlib
 import warnings
 from enum import Enum
 
-from pratik import deprecated as deprecated_
+from pratik.decorator import deprecated as deprecated_
 from pratik.text import Color
 
 @deprecated_

@@ -1,4 +1,4 @@
-from pratik import deprecated
+from pratik.decorator import deprecated
 
 @deprecated
 class DeprecatedClass:
