@@ -160,6 +160,10 @@ class Color:
     def __str__(self):
         return f"({self.red255}, {self.green255}, {self.blue255})"
 
+    def __repr__(self):
+        return f"<red:{self.red255}, green:{self.green255}, blue{self.blue255}" + (
+            f", alpha:{self.alpha255}>" if self.alpha != 1.0 else ">")
+
     def __int__(self):
         return int(self.hexadecimal[1:], 16)
 
@@ -274,6 +278,10 @@ class Color:
                 (v_max - v_min) / (v_max + v_min)
             ), 2
         )
+
+    @property
+    def ascii(self):
+        return f"\033[38;2;{self.red255};{self.green255};{self.blue255}m"
 
 
 if __name__ == '__main__':
