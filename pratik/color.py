@@ -161,7 +161,7 @@ class Color:
         return f"({self.red255}, {self.green255}, {self.blue255})"
 
     def __repr__(self):
-        return f"<red:{self.red255}, green:{self.green255}, blue{self.blue255}" + (
+        return f"<red:{self.red255}, green:{self.green255}, blue:{self.blue255}" + (
             f", alpha:{self.alpha255}>" if self.alpha != 1.0 else ">")
 
     def __int__(self):
@@ -282,6 +282,9 @@ class Color:
     @property
     def ascii(self):
         return f"\033[38;2;{self.red255};{self.green255};{self.blue255}m"
+
+    def copy(self):
+        return Color(self.red, self.green, self.blue, self.alpha)
 
 
 if __name__ == '__main__':
