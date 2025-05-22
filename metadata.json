@@ -1,6 +1,6 @@
 {
   "name": "Pratik",
-  "version": "1.4.0.a6",
+  "version": "1.4.0.a7",
   "authors": [
     {
       "name": "Axelle Viandier",
@@ -9,3 +9,4 @@
   ],
   "description": "A library of various functions and classes helping to program more efficiently and more intuitively."
 }
+
